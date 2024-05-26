@@ -166,13 +166,14 @@ class Scraper(object):
             + "&metadataPrefix=arXiv&set=%s" % self.cat
         )
         self.filters = filters
-        if not self.filters:
+        if not self.filters and not filter_func:
             self.append_all = True
         else:
             self.append_all = False
-            self.keys = filters.keys()
-        
-        self.filter_func = filter_func
+            if self.filters:
+                self.keys = filters.keys()
+            else:
+                self.filter_func = filter_func
 
     def scrape(self) -> List[Dict]:
         t0 = time.time()
